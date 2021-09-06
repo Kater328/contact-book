@@ -1,13 +1,13 @@
-import { USERS_SET, USERS_DELETE } from "../reducers";
+import { USERS_SET, USERS_DELETE, USERS_ADD, USERS_UPDATE, ACTION_SELECT_USER, ACTION_CLEAR_FORM } from "../reducers";
 import usersApi from "../../utils/usersApi";
 
-export const fetchTodos = () => {
+export const fetchUsers = () => {
     return (dispatch) => {
         usersApi.get()
-        .then(response => {
+        .then(({data}) => {
             dispatch({
                 type: USERS_SET,
-                payload: response.data
+                payload: data
             })
         });
     }
@@ -24,3 +24,40 @@ export const deleteUser = (id) => {
         });
     }
 }
+
+export const createUser = (user) => {
+    return (dispatch) => {
+        usersApi.post('', {
+            name: user.name,
+            surname: user.surname,
+            email: user.email
+        })
+        .then(({data}) => {
+            dispatch({
+                type: USERS_ADD,
+                payload: data
+            })
+        });
+    }
+}
+
+export const updateUser = (user) => {
+    return (dispatch) => {
+        usersApi.put(`/${user.id}`, {...user})
+        .then(({data}) => {
+            dispatch({
+                type: USERS_UPDATE,
+                payload: data
+            })
+        });
+    }
+}
+
+export const fillForm = (user) => ({
+    type: ACTION_SELECT_USER,
+    payload: user
+});
+
+export const clearForm = () => ({
+    type: ACTION_CLEAR_FORM
+});

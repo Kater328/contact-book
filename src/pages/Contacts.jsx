@@ -2,7 +2,7 @@ import React from "react";
 import UserTable from "../components/UserTable";
 import Form from "../components/Form";
 import {connect} from "react-redux";
-import {fetchTodos, deleteUser} from "../store/actions"
+import {fetchUsers, deleteUser, fillForm, clearForm, createUser, updateUser} from "../store/actions"
 
 class Contacts extends React.Component {
     constructor(props) {
@@ -15,7 +15,22 @@ class Contacts extends React.Component {
     }
 
     componentDidMount(){
-        this.props.fetchTodos();
+        this.props.fetchUsers();
+    }
+
+    updateForm = (user) => {
+        this.setState({isActiveForm: true});
+        user ? this.props.fillForm(user) : this.props.clearForm();
+    }
+
+    hideForm = () => {
+        this.setState({isActiveForm: false});
+        this.props.clearForm();
+    }
+
+    saveForm = (user) => {
+        user.id ? this.props.updateUser(user) : this.props.createUser(user);
+        this.hideForm();
     }
 
     render() {
@@ -27,24 +42,29 @@ class Contacts extends React.Component {
                 </h1>
                 <button 
                     className="add-button"
-                    onClick={() => this.setState({isActiveForm: true})}>
+                    onClick={this.updateForm}>
                     Add User
                 </button>
                 <div className="wrapper">
                     <UserTable 
                         users={this.props.users}
+                        onSelect={this.updateForm}
                         onDelete={this.props.deleteUser}
                     />
                     {
                         (this.state.isActiveForm) && 
-                        <Form />
+                        <Form 
+                            currentUser={this.props.editingUser}
+                            hideForm={this.hideForm}
+                            saveForm={this.saveForm}/>
                     }
                 </div>
                 </>
             ) :
             <button 
                 className="main-button"
-                onClick={() => this.setState({isActiveTable: true})}>
+                onClick={() => this.setState({isActiveTable: true})}
+            >
                 Show Users
             </button>
         )
@@ -53,13 +73,18 @@ class Contacts extends React.Component {
 
 const mapStateToProps = (state) => {
     return{
-        users: state.users
+        users: state.users,
+        editingUser: state.editingUser
     }
 }
 
 const mapDispatchToProps = {
-    fetchTodos,
-    deleteUser
+    fetchUsers,
+    deleteUser,
+    fillForm,
+    clearForm,
+    createUser,
+    updateUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

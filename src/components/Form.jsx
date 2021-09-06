@@ -1,45 +1,78 @@
-import React from 'react';
+import React from "react";
 
 class Form extends React.PureComponent {
+  constructor(props) {
+    super(props);
 
-render() {
-    return(
-        <form>
-            <input 
-              type="text" 
-              placeholder="Name" 
-            //   value={this.state.name}
-            //   onChange={(e) => this.setState({name: e.target.value})}
-              />
-            <input 
-              type="text" 
-              placeholder="Surname"
-            //   value={this.state.email}
-            //   onChange={(e) => this.setState({email: e.target.value})}
-              />
-            <input 
-              type="text" 
-              placeholder="Email"
-            //   value={this.state.phone}
-            //   onChange={(e) => this.setState({phone: e.target.value})}
-              />
+    this.state = {
+      ...this.props.currentUser
+    };
+  }
 
-            <div className="buttons">
-                <button 
-                  className="positive_button"
-                //   onClick={(e) => this.saveChanges(e)}
-                >
-                    {/* {this.props.currentUser.id ? "Save" : "Create"} */}
-                </button>
-                <button 
-                  className="negative_button"
-                //   onClick={(e) => {this.clearForm(e); this.props.deleteCurrentUser()}}
-                  >
-                    Cancel
-                </button>
-            </div>
-        </form>
-    )
+  componentDidUpdate = (prevProps) => {
+    if(prevProps.currentUser.id !== this.props.currentUser.id) {
+      if (Number.isInteger(this.props.currentUser.id)) {
+        this.setState({
+          ...this.props.currentUser
+        });
+      } else {
+        this.setState({
+          name: "",
+          surname: "",
+          email: "",
+          id: undefined
+        });
+      }
+    }
+  }
+
+  onChange = (e) => {
+    this.setState({
+        [e.target.name]: e.target.value
+    });
+  }
+
+  render() {
+    return (
+      <form>
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={this.state.name}
+          onChange={this.onChange}
+        />
+        <input
+          type="text"
+          name="surname"
+          placeholder="Surname"
+          value={this.state.surname}
+          onChange={this.onChange}
+        />
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={this.state.email}
+          onChange={this.onChange}
+        />
+
+        <div className="buttons">
+          <button
+            className="positive_button"
+            onClick={(e) => {e.preventDefault(); this.props.saveForm(this.state);}}
+          >
+            {this.props.currentUser.id ? "Save" : "Create"}
+          </button>
+          <button
+            className="negative_button"
+            onClick={this.props.hideForm}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    );
   }
 }
 
