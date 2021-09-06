@@ -4,7 +4,37 @@
       "id": 1,
       "name": "Leanne",
       "surname": "Graham",
-      "phone": "1111111111"
+      "email": "Sincere@april.biz"
+    },
+    {
+      "id": 2,
+      "name": "Ervin",
+      "surname": "Howell",
+      "email": "Shanna@melissa.tv"
+    },
+    {
+      "id": 3,
+      "name": "Clementine",
+      "surname": "Bauch",
+      "email": "Nathan@yesenia.net"
+    },
+    {
+      "id": 4,
+      "name": "Patricia",
+      "surname": "Lebsack",
+      "email": "Julianne.OConner@kory.org"
+    },
+    {
+      "id": 5,
+      "name": "Chelsey",
+      "surname": "Dietrich",
+      "email": "Lucio_Hettinger@annie.ca"
+    },
+    {
+      "id": 6,
+      "name": "Dennis",
+      "surname": "Schulist",
+      "email": "Karley_Dach@jasper.info"
     }
   ]
 }
