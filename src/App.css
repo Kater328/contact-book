@@ -33,7 +33,7 @@ header a:hover {
 
 main {
   display: flex;
-  height: 92vh;
+  height: 100%;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -124,8 +124,18 @@ input {
   resize: none;
 }
 
+.invalid {
+  border: red solid 2px;
+}
+
 .buttons {
   margin: 5% 0;
   display: flex;
   justify-content: space-between;
+}
+
+button:disabled:hover {
+  background: var(--color-light);
+  color: rgba(118, 118, 118, 0.3);
+  cursor: initial;
 }

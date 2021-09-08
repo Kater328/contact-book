@@ -20,7 +20,8 @@ class Contacts extends React.Component {
 
     updateForm = (user) => {
         this.setState({isActiveForm: true});
-        user ? this.props.fillForm(user) : this.props.clearForm();
+        this.props.clearForm();
+        if(user) this.props.fillForm(user);
     }
 
     hideForm = () => {
@@ -42,7 +43,10 @@ class Contacts extends React.Component {
                 </h1>
                 <button 
                     className="add-button"
-                    onClick={this.updateForm}>
+                    onClick={(e) => {
+                        e.preventDefault();
+                        this.updateForm();
+                    }}>
                     Add User
                 </button>
                 <div className="wrapper">
